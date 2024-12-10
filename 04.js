@@ -58,10 +58,39 @@ function diagonals(arr) {
     return count
 }
 
-console.log(diagonals(practice) + verticals(practice) + horizontals(practice))
+function xMas(arr) {
+    let count = 0
+    arr.forEach((str, indexArr) => {
+        if (indexArr !== 0 && indexArr !== arr.length - 1)
+        str.split("").forEach((letter, indexStr) => {
+            if (letter === "A" && indexStr !== 0 && indexStr !== str.length - 1) {
+                if (arr[indexArr - 1][indexStr - 1] === "M" && arr[indexArr + 1][indexStr + 1] === "S") {
+                    if (arr[indexArr + 1][indexStr - 1] === "M" && arr[indexArr - 1][indexStr + 1] === "S") {
+                        count++
+                    }
+                    if (arr[indexArr + 1][indexStr - 1] === "S" && arr[indexArr - 1][indexStr + 1] === "M") {
+                        count++
+                    }
+                }
+                if (arr[indexArr - 1][indexStr - 1] === "S" && arr[indexArr + 1][indexStr + 1] === "M") {
+                    if (arr[indexArr + 1][indexStr - 1] === "M" && arr[indexArr - 1][indexStr + 1] === "S") {
+                        count++
+                    }
+                    if (arr[indexArr + 1][indexStr - 1] === "S" && arr[indexArr - 1][indexStr + 1] === "M") {
+                        count++
+                    }
+                }
+            }
+        })
+    })
+    return count
+}
+
+console.log(xMas(practice))
 
 fsPromises.readFile("./data/04-data.txt", "utf-8").then((response) => {
     const lines = response.split("\n")
     const total = diagonals(lines) + verticals(lines) + horizontals(lines)
     console.log(total)
+    console.log(xMas(lines))
 })
