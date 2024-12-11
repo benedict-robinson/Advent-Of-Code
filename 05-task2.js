@@ -18,12 +18,10 @@ fsPromises.readFile("./data/05-data.txt", "utf8")
 .then((data) => {
     const orders = data[0]
     const pages = data[1]
-    console.log(pages)
 
-    const ordersObj = getOrders(orders)
-    const corrects = findCorrects(pages, ordersObj)
-    const answer = sumOfMiddles(corrects)
-    console.log(answer)
+    // const ordersObj = getOrders(orders)
+    // const corrects = findCorrects(pages, ordersObj)
+    // const answer = sumOfMiddles(corrects)
 })
 
 function getOrders(arr) {
@@ -41,6 +39,7 @@ function getOrders(arr) {
 
 function findCorrects(arr, obj) {
     const correctPrints = []
+    const incorrectPrints = []
     arr.forEach((element) => {
         let isSafe = true
         for (let i = 0; i < element.length; i++) {
@@ -56,8 +55,31 @@ function findCorrects(arr, obj) {
         if (isSafe) {
             correctPrints.push(element)
         }
+        else {
+            incorrectPrints.push(element)
+        }
     })
-    return correctPrints
+    console.log({incorrectPrints, obj})
+    const corrected = incorrectPrints.map((element) => {
+        let newArr = []
+        element.forEach((num, index) => {
+            if (!obj[num] || index === 0) {
+                newArr.push(num)
+            }
+            else {
+                newArr.forEach((newNum, i) => {
+                    let hasBeenInserted = false
+                    if (obj[num].includes(newNum) && !hasBeenInserted) {
+                        newArr.splice(i, 0, num)
+                        hasBeenInserted = true
+                    }
+                })
+            }
+        })
+        return newArr
+    })
+
+    return corrected
 }
 
 function sumOfMiddles(arr) {
@@ -103,5 +125,5 @@ const practicePages = [
 const practiceObj = getOrders(practicePairs)
 
 const correctPrints = findCorrects(practicePages, practiceObj)
-
-const practiceAnswer = sumOfMiddles(correctPrints)
+console.log(correctPrints)
+//const practiceAnswer = sumOfMiddles(correctPrints)
