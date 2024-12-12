@@ -19,9 +19,10 @@ fsPromises.readFile("./data/05-data.txt", "utf8")
     const orders = data[0]
     const pages = data[1]
 
-    // const ordersObj = getOrders(orders)
-    // const corrects = findCorrects(pages, ordersObj)
-    // const answer = sumOfMiddles(corrects)
+    const ordersObj = getOrders(orders)
+    const corrects = findCorrects(pages, ordersObj)
+    const answer = sumOfMiddles(corrects)
+    console.log(answer)
 })
 
 function getOrders(arr) {
@@ -59,7 +60,6 @@ function findCorrects(arr, obj) {
             incorrectPrints.push(element)
         }
     })
-    console.log({incorrectPrints, obj})
     const corrected = incorrectPrints.map((element) => {
         let newArr = []
         element.forEach((num, index) => {
@@ -67,13 +67,14 @@ function findCorrects(arr, obj) {
                 newArr.push(num)
             }
             else {
+                let hasBeenInserted = false
                 newArr.forEach((newNum, i) => {
-                    let hasBeenInserted = false
                     if (obj[num].includes(newNum) && !hasBeenInserted) {
                         newArr.splice(i, 0, num)
                         hasBeenInserted = true
                     }
                 })
+                if (!hasBeenInserted) newArr.push(num)
             }
         })
         return newArr
@@ -126,4 +127,5 @@ const practiceObj = getOrders(practicePairs)
 
 const correctPrints = findCorrects(practicePages, practiceObj)
 console.log(correctPrints)
-//const practiceAnswer = sumOfMiddles(correctPrints)
+const practiceAnswer = sumOfMiddles(correctPrints)
+console.log(practiceAnswer)
